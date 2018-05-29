@@ -14,7 +14,7 @@ class EvaluationTables extends Migration
     public function up()
     {
         Schema::create('evaluation_tables', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_table');
             $table->year("year");
             $table->string('validated');
             $table->timestamps();

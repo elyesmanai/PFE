@@ -15,8 +15,8 @@ class CreateProjectsDelegatesTable extends Migration
     {
         Schema::create('projects_delegates', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('delegate_id');
-            $table->integer('project_id');
+            $table->integer('id_user');
+            $table->integer('id_delegate');
             $table->timestamps();
         });
     }

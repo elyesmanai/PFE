@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use \App\Typeprojet;
+
 use Illuminate\Http\Request;
 
-class ProjetController extends Controller
+class ComAction extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -12,9 +12,8 @@ class ProjetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {   
-        $projets=Typeprojet::all();
-       return view('admin.projet.index')->with('projets',$projets);
+    {
+        //
     }
 
     /**
@@ -23,9 +22,8 @@ class ProjetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-        $projets=Typeprojet::all();
-        return view('admin.projet.create')->with('projets',$projets);
+    {
+        //
     }
 
     /**
@@ -36,11 +34,7 @@ class ProjetController extends Controller
      */
     public function store(Request $request)
     {
-       $projets= new Typeprojet();
-       $projets->type=$request->type;
-       $projets->soustype=$request->soustype;
-       $projets->save();
-       return redirect('projets');
+        //
     }
 
     /**

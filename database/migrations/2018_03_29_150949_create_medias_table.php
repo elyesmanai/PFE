@@ -14,14 +14,12 @@ class CreateMediasTable extends Migration
     public function up()
     {
         Schema::create('medias', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('belongs_to');
-            $table->integer('publisher');
-            $table->string('belongs_type');
-            $table->boolean('is_shared_fb');
-            $table->boolean('is_shared_ws');
-            $table->date('shared_fb');
-            $table->date('sharef_ws');
+            $table->increments('id_media');
+            $table->integer('belong_to');
+            $table->integer('author');
+            $table->string('path');
+            $table->string("type");
+            
             $table->timestamps();
         });
     }

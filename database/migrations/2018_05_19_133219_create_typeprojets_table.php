@@ -14,9 +14,13 @@ class CreateTypeprojetsTable extends Migration
     public function up()
     {
         Schema::create('typeprojets', function (Blueprint $table) {
-            $table->increments('id_type_projet');
+            $table->increments('id_type');
             $table->string('type');
-            $table->string('soustype');
+            $table->integer('total_amount');
+            $table->integer('self_monetization');
+            $table->integer('loan');
+            $table->integer('assistance');
+            $table->integer('year');
             $table->timestamps();
         });
     }

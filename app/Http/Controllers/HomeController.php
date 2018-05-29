@@ -52,7 +52,7 @@ class HomeController extends Controller
                 $convocations = $this->getConvocations();
                 $convocationsNbr = $convocations->count();
                 $projects = $this->getProjects();
-                return view('delegate/home')->with('convocations',$convocations)->with('convocationsNbr',$convocationsNbr)->with('projects',$projects);
+                return view('homes.delegate')->with('convocations',$convocations)->with('convocationsNbr',$convocationsNbr)->with('projects',$projects);
                 break;
 
 
@@ -60,25 +60,25 @@ class HomeController extends Controller
                 $feedbacks = $this->getFeedbacks();
                 $convocations = $this->getConvocations();
                 $convocationsNbr =  $convocations->count();
-                return view('civil_society/home')->with('convocations',$convocations)->with('convocationsNbr',$convocationsNbr);
+                return view('homes.civil_society')->with('convocations',$convocations)->with('convocationsNbr',$convocationsNbr);
                 break;
 
             case 'financial':
                 $tables = $this->getTables();
                 $zones = $tables->pluck('zone')->unique();
                 $years = $tables->pluck('year')->unique();
-                return view('financial/home')->with('years',$years)->with('tables',$tables)->with("zones",$zones);
+                return view('homes.financial')->with('years',$years)->with('tables',$tables)->with("zones",$zones);
                 break;
 
             case 'technician':
                 $tables = $this->getTables();
                 $zones = $tables->pluck('zone')->unique();
 
-                return view('technician/home')->with('tables',$tables)->with("zones",$zones);
+                return view('homes.technician')->with('tables',$tables)->with("zones",$zones);
                 break;
             case 'admin':
                 $tables = $this->getTables();
-                return view('admin/home')->with('tables',$tables);
+                return view('homes.admin')->with('tables',$tables);
                 break;
             
             default:

@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Meeting extends Model
 {
-   public $primaryKey = 'meeting_id';
+   protected $table = 'meetings';
+
+    public $primaryKey = 'id_meeting';
+    protected $fillable = ['name','date'];
 }

@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\TechTable::class, function (Faker $faker) {
+$factory->define(App\Project::class, function (Faker $faker) {
 	$types = ['inara','dhaw','miyeh','bani'];
 	$zones=['marsa medina','bousalsla','gammarth','marsa plage'];
 	$years = [2015,2016,2017,2018];

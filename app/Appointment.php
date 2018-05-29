@@ -9,6 +9,5 @@ class Appointment extends Model
 	protected $table = 'appointments';
 
     public $primaryKey = 'apointment_id';
-    protected $fillable = ['date','objet','message','commentaire','etat','de','a'];
-
+    protected $fillable = ['date','object','message','comment','status','sender','receiver'];
 }

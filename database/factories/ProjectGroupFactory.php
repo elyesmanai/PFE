@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\FinTable::class, function (Faker $faker) {
+$factory->define(App\ProjectGroup::class, function (Faker $faker) {
     return [
     	'prog_type' =>str_random(10),
     	'proj_type' => str_random(10),

@@ -1,5 +1,5 @@
 step 1 : 
-- elyes : raka7 models, controllers names and views architecture
+- elyes : controllers names and views architecture
 - chaime : proofread abstract, php framework, choice of backend, general conclusion and add joumal to tsawirgit add 
 
 Step 2:

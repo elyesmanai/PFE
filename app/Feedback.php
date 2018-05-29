@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Feedback extends Model
 {
-     protected $table = 'feedbacks';
+    protected $table = 'feedbacks';
+
+    public $primaryKey = 'id_feedbacks';
+    protected $fillable = ['sender','receiver','object',"meeting"];
 }
