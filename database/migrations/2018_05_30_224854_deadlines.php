@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectsDelegatesTable extends Migration
+class Deadlines extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateProjectsDelegatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('projects_delegates', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_user');
-            $table->integer('id_delegate');
+          Schema::create('deadlines', function (Blueprint $table) {
+            $table->increments('id_deadline');
+            $table->string('name');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateProjectsDelegatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('projects_delegates');
+        Schema::dropIfExists('deadlines');
     }
 }

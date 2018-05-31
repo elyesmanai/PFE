@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Deadline;
 
-class ComAction extends Controller
+class DeadlineController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +14,8 @@ class ComAction extends Controller
      */
     public function index()
     {
-        //
+        $deadlines = Deadline::all();
+        return view('deadlines.index')->with('deadlines',$deadlines);
     }
 
     /**
@@ -23,7 +25,7 @@ class ComAction extends Controller
      */
     public function create()
     {
-        //
+        return view('deadlines.create');
     }
 
     /**
@@ -34,19 +36,13 @@ class ComAction extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $deadline = New Deadline();
+        $deadline->name = $request->get('name');
+        $deadline->date = $request->get('date');
+        $deadline->save();
+        return redirect('/deadlines');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -56,7 +52,8 @@ class ComAction extends Controller
      */
     public function edit($id)
     {
-        //
+    	$deadline = Deadline::find($id);
+        return view('deadlines.edit')->with("deadline",$deadline);
     }
 
     /**
@@ -68,7 +65,11 @@ class ComAction extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+    	$deadline = Deadline::find($id);
+        $deadline->name = $request->get('name');
+        $deadline->date = $request->get('date');
+        $deadline->save();
+        return redirect('/deadlines');
     }
 
     /**
@@ -79,6 +80,8 @@ class ComAction extends Controller
      */
     public function destroy($id)
     {
-        //
+        $deadline = Deadline::find($id);
+        $deadline->delete();
+        return redirect('/deadlines');
     }
 }

@@ -15,10 +15,11 @@ class CreateFeedbackTable extends Migration
     {
         Schema::create('feedbacks', function (Blueprint $table) {
             $table->increments('id_feedback');
-            $table->integer('sender');
-            $table->integer('receiver');
+            $table->integer('sender_id');
+            $table->integer('receiver_id');
             $table->string('object');
-            $table->int('meeting');
+            $table->string('type');
+            $table->integer('meeting_id')->nullable();
             $table->timestamps();
         });
     }

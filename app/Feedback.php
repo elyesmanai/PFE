@@ -8,6 +8,6 @@ class Feedback extends Model
 {
     protected $table = 'feedbacks';
 
-    public $primaryKey = 'id_feedbacks';
-    protected $fillable = ['sender','receiver','object',"meeting"];
+    public $primaryKey = 'id_feedback';
+    protected $fillable = ['sender_id','receiver_id','object','type',"meeting"];
 }

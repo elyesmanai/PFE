@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use \App\Appointment;
+use \App\Meeting;
 use \App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,9 +12,20 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments =  \App\Appointment::where('a', Auth::user()->id)->get();
-      // $meetings =  \App\Meeting::all();
-        return view('admin\appointment\all')->with('appointments',$appointments);
+        $newappointments= Appointment::where('receiver_id', Auth::id())
+        ->orwhere('sender_id', Auth::id())
+        ->where('date','>=', date('Y-m-d'))
+        ->where('status','en attente')
+        ->get()
+        ->reverse();
+
+        $oldappointments= Appointment::where('receiver_id', Auth::id())
+        ->orwhere('sender_id', Auth::id())
+        ->where('date','<', date('Y-m-d'))
+        ->where('status', "!=", "accepté")
+        ->get();
+               
+        return view('appointments.index')->with('newappointments',$newappointments)->with('oldappointments',$oldappointments);
     }
 
     /**
@@ -23,8 +35,11 @@ class AppointmentController extends Controller
      */
     public function create()
     {   
-        $users=\App\User::all();
-        return view('admin\appointment\create', compact("users"));
+        if(Auth::user()->role=="admin"){
+            $users=User::all();
+            return view('appointments.create', compact("users"));
+        } 
+        return view('appointments.create');
     }
 
     /**
@@ -35,26 +50,21 @@ class AppointmentController extends Controller
      */
     public function store(Request $request)
     {
-        $appointments= new Appointment();
-        $appointments->date=$request->get('date');
-        $appointments->objet=$request->get('objet');
-        $appointments->message=$request->get('message');
-        $appointments->etat=0;
-        $appointments->de=Auth::user()->id;
-        $appointments->a=$request->get('user');
-        $appointments->save();
-        return redirect('appointment');
-    }
+        $appointment= new Appointment();
+        $appointment->date=$request->get('date');
+        $appointment->object=$request->get('object');
+        $appointment->message=$request->get('message');
+        $appointment->status="en attente";
+        $appointment->sender_id=Auth::id();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        if(Auth::user()->role == 'admin'){
+            $appointment->receiver_id=$request->get('user');
+        } else{
+            $appointment->receiver_id=User::where('role',"admin")->first()->id;     
+        }
+       
+        $appointments->save();
+        return redirect('appointments');
     }
 
     /**
@@ -65,7 +75,12 @@ class AppointmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $appointment = appointment::find($id);
+        if(Auth::user()->role=="admin"){
+            $users=User::all();
+            return view('appointments.edit')->with("users",$users)->with("appointment",$appointment);
+        } 
+        return view('appointments.edit')->with('appointment',$appointment);
     }
 
     /**
@@ -77,7 +92,19 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $appointment = Appointment::find($id);
+        $appointment->date=$request->get('date');
+        $appointment->object=$request->get('object');
+        $appointment->message=$request->get('message');
+
+        if(Auth::user()->role == 'admin'){
+            $appointment->receiver_id=$request->get('user');
+        } else{
+            $appointment->receiver_id=User::where('role',"admin")->first()->id; 
+        }
+
+        $appointment->save();
+        return redirect('/appointments');
     }
 
     /**
@@ -90,6 +117,7 @@ class AppointmentController extends Controller
     {
         //
     }
+
     public function comm(Request $request)
     {   $idee=$request->get('apointment_id');
         $appointments = Appointment::find($idee);
@@ -98,12 +126,21 @@ class AppointmentController extends Controller
          $appointments->save();
         return redirect('appointment');
     }
-    public function ok(Request $request,$id)
+
+    public function accept($id)
     {   
         $appointments = Appointment::find($id);
-        $appointments->etat=1;
+        $appointments->status="accepté"; //accepted
         $appointments->save();
-        return redirect('appointment');
+        return redirect('/appointments');
+    }
+
+    public function refuse($id)
+    {   
+        $appointments = Appointment::find($id);
+        $appointments->status="refusé"; //refused
+        $appointments->save();
+        return redirect('/appointments');
     }
 }
 ?>

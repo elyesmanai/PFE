@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class UserController extends Controller
 {
@@ -17,7 +19,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin/users/index',compact('users'));
+        return view('users.index',compact('users'));
     }
 
     /**
@@ -27,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin/users/register');
+        return view('users.new');
     }
 
     /**
@@ -59,7 +61,8 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return view('admin/users/edit');
+        $user = User::find($id);
+        return view('users.show')->with('user',$user);
     }
 
     /**
@@ -71,7 +74,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        return view('admin/users/edit',compact('id','user'));
+        return view('users.edit',compact('id','user'));
     }
 
     /**
@@ -83,14 +86,21 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user=User::find($request->get('id')) ;
-        $user->name=$request->get('name');
-        $user->email=$request->get('email');
-        $user->role=$request->get('role');
-        $encrypted =  Hash::make($request->get('password'));
-        $user->password=$encrypted;
-        $user->save();
-        return redirect('users');
+        $user = User::find($id);
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $encrypted = Hash::make($request->get('password'));
+        $user->password = $encrypted;
+
+        if(Auth::user()->role=="admin"){
+            $user->zone = $request->get('email');
+            $user->role = $request->get('role');
+            $user->save();
+            return redirect('/users');
+        }else{
+            $user->save();
+            return redirect('users/'.Auth::id())->with('success', 'Information has been added');
+        }
     }
 
     /**
@@ -103,7 +113,7 @@ class UserController extends Controller
     {
         $user=User::find($id) ;
         $user->delete();
-        return  redirect()->action('UserController@index');
+        return redirect('/users');
 
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use \App\Typeprojet;
+use \App\Project;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -13,8 +13,8 @@ class ProjectController extends Controller
      */
     public function index()
     {   
-        $projets=Typeprojet::all();
-       return view('admin.projet.index')->with('projets',$projets);
+        $projects=Project::all();
+       return view('projects.index')->with('projects',$projects);
     }
 
     /**
@@ -24,8 +24,7 @@ class ProjectController extends Controller
      */
     public function create()
     {   
-        $projets=Typeprojet::all();
-        return view('admin.projet.create')->with('projets',$projets);
+        return view('projects.create');
     }
 
     /**
@@ -62,7 +61,7 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('projects.edit');
     }
 
     /**

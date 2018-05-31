@@ -18,10 +18,10 @@ class CreateAppointmentsTable extends Migration
             $table->date('date');
             $table->string('object');
             $table->string('message');
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->string('status');
-            $table->integer('sender');
-            $table->integer('receiver');
+            $table->integer('sender_id');
+            $table->integer('receiver_id');
             $table->timestamps();
         });
     }

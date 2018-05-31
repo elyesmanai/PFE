@@ -16,9 +16,9 @@ class MeetingController extends Controller
      */
     public function index()
     {
-        $meetings =  \App\Meeting::where('a', Auth::user()->id)->get();
+        $meetings =  Meeting::all();
       // $meetings =  \App\Meeting::all();
-        return view('admin\\all')->with('meetings',$meetings);
+        return view('meetings.index')->with('meetings',$meetings);
     }
 
     /**
@@ -28,8 +28,7 @@ class MeetingController extends Controller
      */
     public function create()
     {   
-        $users=\App\User::all();
-        return view('admin\\create', compact("users"));
+        return view('meetings.create');
     }
 
     /**
@@ -42,13 +41,9 @@ class MeetingController extends Controller
     {
         $meeting= new Meeting();
         $meeting->date=$request->get('date');
-        $meeting->objet=$request->get('objet');
-        $meeting->message=$request->get('message');
-         $meeting->etat=0;
-        $meeting->de=Auth::user()->id;
-        $meeting->a=$request->get('user');
+        $meeting->name=$request->get('objet');
         $meeting->save();
-        return redirect('');
+        return redirect('/meetings');
     }
 
     /**
@@ -70,7 +65,8 @@ class MeetingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $meeting = meeting::find($id);
+        return view('meetings.edit')->with("meeting",$meeting);
     }
 
     /**
@@ -82,7 +78,11 @@ class MeetingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $meeting = Meeting::find($id);
+        $meeting->name = $request->get('name');
+        $meeting->date = $request->get('date');
+        $meeting->save();
+        return redirect('/meetings');
     }
 
     /**
@@ -93,21 +93,8 @@ class MeetingController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-    public function comm(Request $request)
-    {   $idee=$request->get('meeting_id');
-        $meeting = Meeting::find($idee);
-        $meeting->Commentaire=$request->get('com');
-        $meeting->etat=2;
-         $meeting->save();
-        return redirect('');
-    }
-    public function ok(Request $request,$id)
-    {   
         $meeting = Meeting::find($id);
-        $meeting->etat=1;
-         $meeting->save();
-        return redirect('meetings');
+        $meeting->delete();
+        return redirect('/meetings');
     }
 }

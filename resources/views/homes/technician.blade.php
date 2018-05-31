@@ -7,32 +7,56 @@
         <div class="row">
              
             <div class="col-lg-12">
-               <center><h1>Tableaux Techniques à remplir</h1></center>
-               @foreach($zones as $zone)
-                    <h2>{{$zone}}</h2>
+               <h1>Projets de type près: <a href="/projects/create"><button class="btn btn-info">Ajouter projet</button></a></h1>
                     <table id="example2" class="table table-bordered table-striped">
                         <tr>
-                            <th> Name </th>
-                            <th> Year </th>
-                            <th> validated </th>
-                            <th> actions </th>
+                            <th> Zone </th>
+                            <th> Groupe </th>
+                            <th> Nom </th>
+                            <th> Etape </th>
+                            <th> Accomplissement </th>
+                            <th> Année </th>
+                            <th> Actions </th>
                         </tr>
-                        @foreach($tables as $table)
-                            @if($table->zone == $zone)
-                                <tr>
-                                    <th>{{$table->type}}</th>
-                                    <th>{{$table->year}}</th>
-                                    <th></th>
-                                    <th>
-                                        <a href="/tables/{{$table->id}}"><button class="btn btn-info">Afficher</button></a>
-                                        <a href="/tables/{{$table->id}}/edit"><button class="btn btn-info">Modifier</button></a>
-                                        <button class="btn btn-info">Envoyer pour validation</button>
-                                    </th>
-                                </tr>
-                            @endif
-                        @endforeach
+                        <tr>
+                            <th> Marsa Erriadh </th>
+                            <th> Gourdonnement </th>
+                            <th> Rue Ebdellia </th>
+                            <th> Début travail </th>
+                            <th> 50% </th>
+                            <th> 2018 </th>
+                            <th> 
+                                <a href="/projects/edit"><button class="btn btn-danger">Modifier</button></a>
+                                <button class="btn btn-danger">Supprimer</button>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th> Gammarth </th>
+                            <th> éclairage public </th>
+                            <th> Rue Tabek </th>
+                            <th> Choix entrepreneur </th>
+                            <th> 20% </th>
+                            <th> 2018 </th>
+                             <th> 
+                                <button class="btn btn-danger">Modifier</button>
+                                <button class="btn btn-danger">Supprimer</button>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th> Marsa Erriadh </th>
+                            <th> Rénovation </th>
+                            <th> Arrondissement Saada </th>
+                            <th> Diagnostic </th>
+                            <th> 10% </th>
+                            <th> 2018 </th>
+                             <th> 
+                                <button class="btn btn-danger">Modifier</button>
+                                <button class="btn btn-danger">Supprimer</button>
+                            </th>
+                        </tr>
+                        
+                          
                     </table> <br><br>
-               @endforeach
             </div>
         </div> 
     </div>

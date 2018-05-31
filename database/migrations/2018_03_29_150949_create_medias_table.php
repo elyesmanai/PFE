@@ -15,8 +15,8 @@ class CreateMediasTable extends Migration
     {
         Schema::create('medias', function (Blueprint $table) {
             $table->increments('id_media');
-            $table->integer('belong_to');
-            $table->integer('author');
+            $table->integer('feedback_id');
+            $table->integer('author_id');
             $table->string('path');
             $table->string("type");
             

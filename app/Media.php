@@ -9,5 +9,5 @@ class Media extends Model
     protected $table = 'medias';
 
     public $primaryKey = 'id_media';
-    protected $fillable = ['path','author','belong_to'];
+    protected $fillable = ['path','author_id','feedback_id'];
 }

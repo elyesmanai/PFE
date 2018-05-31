@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Feedback;
 use Storage;
+use \App\User;
+use Image;
 
 class FeedbackController extends Controller
 {
@@ -17,12 +19,12 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role=="admin"){
-            $feedbacks = Feedback::all();
-        }else{
-        $feedbacks = Feedback::where('user_id',Auth::id())->get();
-        return view('delegate\feedbacks\index')->with('feedbacks',$feedbacks);
+        if(Auth::user()->role=="admin"){ $feedbacks = Feedback::all(); }
+        else{
+        $feedbacks = Feedback::where('sender_id',Auth::id())->orwhere('receiver_id',Auth::id())->get();
         }
+        return view('feedbacks.index')->with('feedbacks',$feedbacks);
+
         
     }
 
@@ -33,7 +35,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        return view('delegate\feedbacks\create');
+        return view('feedbacks.create');
     }
 
     /**
@@ -44,25 +46,34 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $media = 0;
-        $files = $request->file('image');
-        if(!empty($files)){
-            foreach ($files as $file) {
-                Storage::put($file->getClientOriginalName(),file_get_contents($file));
-            }
-            $media = 1;
+
+        $feedback= new Feedback();
+        $feedback->sender_id=Auth::id();
+        $feedback->object=$request->get('object');
+        $feedback->type=$request->get('type');
+        $feedback->meeting_id=0;
+
+        if(Auth::user()->role == 'admin'){
+            $feedback->receiver_id=$request->get('receiver');
+        } else{
+            $feedback->receiver_id=User::where('role',"admin")->first()->id; 
         }
 
-        DB::table('feedbacks')->insert(
-            [
-             'user_id' => Auth::id(),
-             'content' => $request->input('content'),
-             'type' => $request->input('type'),
-             'hasmedia' => $media
-            ]
-        );
-        $feedbacks = Feedback::where('user_id',Auth::id())->get();
-        return view('delegate\feedbacks\index')->with('feedbacks',$feedbacks);
+        
+
+        $media = 0;
+        $files = $request->file('image');
+    
+        if( $request->file('image')!=null){
+            $image = $request->file('image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            Image::make($image)->resize(300, null, function ($constraint) {$constraint->aspectRatio();})->save( public_path('/media/' . $filename ) );
+            //Image::make($image)->save( public_path('/uploads/imagepromo/' . $filename ) );
+            $feedback->image = '/media/'.$filename;
+        }
+
+        $feedback->save();
+        return redirect('/feedbacks');
     }
 
     /**
@@ -84,7 +95,8 @@ class FeedbackController extends Controller
      */
     public function edit($id)
     {
-        //
+        $feedback = Feedback::find($id);
+        return view('feedbacks.edit')->with("feedback",$feedback);
     }
 
     /**
@@ -96,7 +108,15 @@ class FeedbackController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $feedback = Feedback::find($id);
+        $feedback->type = $request->get('type');
+        $feedback->object = $request->get('object');
+        if(Auth::user()->role=="admin"){ 
+            $feedback->receiver_id = $request->get('receiver');
+        }
+        $feedback->save();
+        return redirect('/feedbacks');
     }
 
     /**
@@ -107,6 +127,7 @@ class FeedbackController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $feedback = Feedback::find($id);
+        $feedback->delete();
     }
 }

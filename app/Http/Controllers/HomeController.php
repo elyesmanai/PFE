@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use \App\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,61 +25,55 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function getTables(){
-        return DB::table('technical_tables')->where('year',Date('Y'))->get();
+         DB::table('technical_tables')->where('year',Date('Y'))->get();
     }
 
-    public function getConvocations(){
-        return DB::table('convocations')->where('to',Auth::id())->get();
+    public function getappointments(){
+        return DB::table('appointments')->where('receiver_id',Auth::id())->orWhere('sender_id',Auth::id())->get();
+
     }
 
     public function getFeedbacks(){
-        return DB::table('feedbacks')->where('user_id',Auth::id())->get();
+        return DB::table('feedbacks')->where('sender_id',Auth::id())->orWhere('receiver_id',Auth::id())->get();
     }
 
     public function getProjects(){
-        return DB::table('users')
-                ->join('projects_delegates', 'users.id', '=', 'projects_delegates.delegate_id')
-                ->join('projects', 'projects.project_id', '=', 'projects_delegates.project_id')
-                ->select('projects.*')
-                ->where('projects_delegates.delegate_id',Auth::id())
-                ->get();
+        return DB::table('projects')->where('zone',Auth::user()->zone)->get();
     }
-
+    public function getMeetings(){
+        return  Meeting::all();
+    }
     public function index()
     {
         
         switch (Auth::user()->role) {
             case 'delegate':
-                $convocations = $this->getConvocations();
-                $convocationsNbr = $convocations->count();
+                $appointments = $this->getappointments();
+                $appointmentsNbr = $appointments->count();
                 $projects = $this->getProjects();
-                return view('homes.delegate')->with('convocations',$convocations)->with('convocationsNbr',$convocationsNbr)->with('projects',$projects);
+                $meetings = $this->getMeetings();
+                return view('homes.delegate')->with('appointments',$appointments)->with('appointmentsNbr',$appointmentsNbr)->with('projects',$projects)->with('meetings',$meetings);;
                 break;
 
 
             case 'civil_society':
-                $feedbacks = $this->getFeedbacks();
-                $convocations = $this->getConvocations();
-                $convocationsNbr =  $convocations->count();
-                return view('homes.civil_society')->with('convocations',$convocations)->with('convocationsNbr',$convocationsNbr);
+                $appointments = $this->getappointments();
+                $appointmentsNbr =  $appointments->count();
+                return view('homes.civil_society')->with('appointments',$appointments)->with('appointmentsNbr',$appointmentsNbr);
                 break;
 
             case 'financial':
-                $tables = $this->getTables();
-                $zones = $tables->pluck('zone')->unique();
-                $years = $tables->pluck('year')->unique();
-                return view('homes.financial')->with('years',$years)->with('tables',$tables)->with("zones",$zones);
+             
+                return view('homes.financial');
                 break;
 
             case 'technician':
-                $tables = $this->getTables();
-                $zones = $tables->pluck('zone')->unique();
 
-                return view('homes.technician')->with('tables',$tables)->with("zones",$zones);
+
+                return view('homes.technician');
                 break;
             case 'admin':
-                $tables = $this->getTables();
-                return view('homes.admin')->with('tables',$tables);
+                return view('homes.admin');
                 break;
             
             default:

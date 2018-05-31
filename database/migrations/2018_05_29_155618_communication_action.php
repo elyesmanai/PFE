@@ -18,8 +18,9 @@ class CommunicationAction extends Migration
             $table->increments('id_action');
             $table->date('deadline');
             $table->boolean('validated');
-            $table->integer('target');
+            $table->integer('target_id');
             $table->string('object');
+            $table->string('zone');
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CommunicationAction extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('communication_actions');
     }
 }

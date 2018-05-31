@@ -8,42 +8,51 @@
            
             <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Tableaux Financiers</h3>
+              <h3 class="box-title">Tableaux Financiers: </h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table class="table table-bordered">
+              <table id="example2" class="table table-bordered table-striped">
                 <tr>
                     <th>Name</th>
-                    <th>Step</th>
-                    <th ></th>
-                    <th ></th>
+                    <th>Année</th>
+                    <th>Actions</th>
                 </tr>
-                @foreach($years as $year)
-                <tr>
-                      <h2>{{$year}}</h2> 
-                   </tr>
-              
+                
                    
                     <tr>
                         <td>Projet type N</td>
-                        <td>{{$year}}</td>
-                         <td><a href="/show"><button class="btn btn-info">consuter</button></a></td>
-                         <td><button class="btn btn-warning">modifier</button></td>
+                        <td>2018</td>
+                         <td><a href="/show"><button class="btn btn-info">consuter</button></a> &nbsp;
+                         <button class="btn btn-warning">modifier</button></td>
                     </tr>
                      <tr>
                         <td>Projet type I</td>
-                        <td>{{$year}}</td>
-                         <td><button class="btn btn-info">consuter</button></td>
-                         <td><button class="btn btn-warning">modifier</button></td>
+                        <td>2018</td>
+                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
                     </tr>
                      <tr>
                         <td>Projet type H</td>
-                        <td>{{$year}}</td>
-                         <td><button class="btn btn-info">consuter</button></td>
-                         <td><button class="btn btn-warning">modifier</button></td>
+                        <td>2018</td>
+                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
                     </tr>
-                   @endforeach 
+                     <tr>
+                        <td>Projet type N</td>
+                        <td>2017</td>
+                         <td><a href="/show"><button class="btn btn-info">consuter</button></a> &nbsp;
+                         <button class="btn btn-warning">modifier</button></td>
+                    </tr>
+                     <tr>
+                        <td>Projet type I</td>
+                        <td>2017</td>
+                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
+                    </tr>
+                     <tr>
+                        <td>Projet type H</td>
+                        <td>2017</td>
+                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
+                    </tr>
+
                </table>
                </div>
                </div> 

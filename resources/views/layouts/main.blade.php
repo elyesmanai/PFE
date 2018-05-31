@@ -55,22 +55,12 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="{{ asset('dist/img/avatar5.png')}}" class="user-image" alt="User Image">
               <span class="hidden-xs"> {{ Auth::user()->name }} </span>
             </a>
             <ul class="dropdown-menu">
-              <!-- User image -->
-              <li class="user-header">
-                <img src="{{ asset('dist/img/avatar5.png')}}" class="img-circle" alt="User Image">
-               <p>{{ Auth::user()->role }}</p>
-                
-              </li>
-              <!-- Menu Body -->
-              
-              <!-- Menu Footer-->
               <li class="user-footer">
-                
                 <div class="pull-right">
+                  <a href="/users/{{ Auth::id() }}" class="btn btn-default btn-flat">Modifier compte</a>
                   <a href="{{ route('logout') }}" class="btn btn-default btn-flat">Déconnexion</a>
                 </div>
               </li>
@@ -88,16 +78,19 @@
     <section class="sidebar">
         
              <ul class="sidebar-menu">
-              <li>      
+                 
+                  @if(Auth::user()->role=="technician" or Auth::user()->role=="financial")
+                  @else
+                  <li>   
                     <a href="/home">  
                       <i class="fa fa-th"></i> <span>Acceuil</span>
-                      <span class="pull-right-container">
-                      </span> 
+                      <span class="pull-right-container"></span> 
                     </a>   
                  </li> 
-                 @if(Auth::user()->role=="admin"||Auth::user()->role=="delegate" || Auth::user()->role=="civil_society")
+                 @endif
+                 @if(Auth::user()->role=="admin"or Auth::user()->role=="delegate" or Auth::user()->role=="civil_society")
                   <li>      
-                    <a href="/appointment">  
+                    <a href="/appointments">  
                       <i class="fa fa-th"></i> <span>Rendez-vous</span>
                        <span class="pull-right-container">
                          <span class="label label-primary pull-right">4</span>
@@ -110,43 +103,60 @@
                       <span class="pull-right-container"></span>
                     </a>
                  </li>
-                 
-                 @endif
-              @if(Auth::user()->role=="admin")
-                  <li class="treeview">
+                 <li class="treeview">
                     <a href="#">
                       <i class="fa fa-dashboard"></i> <span>Tableaux</span>
                        <span class="pull-right-container">
                       <i class="fa fa-angle-left pull-right"></i></span>
                     </a>
                         <ul class="treeview-menu">
-                           <li><a href="/tableaux_eval"><i class="fa fa-circle-o"></i> Evaluations</a></li>
-                            <li><a href="/tableaux_finances"><i class="fa fa-circle-o"></i>Finances</a></li>
-                            <li><a href="/tableaux_tech"><i class="fa fa-circle-o"></i>Techniques</a></li>
+                          <li><a href="/tables/fin"><i class="fa fa-circle-o"></i>Finances</a></li>
+                          <li><a href="/tables/tech"><i class="fa fa-circle-o"></i>Techniques</a></li>
+                          <li><a href="/tables/fintech"><i class="fa fa-circle-o"></i>Technico-finances</a></li>
+                          <li><a href="/tables/res"><i class="fa fa-circle-o"></i>Resources</a></li>
+                          <li><a href="/tables/eval"><i class="fa fa-circle-o"></i>Evaluations</a></li>
                         </ul>
                    </li> 
+                 @endif
+              @if(Auth::user()->role=="admin")
+                 
                   <li class="treeview">
-                    <a href="#">
-                      <i class="fa fa-dashboard"></i> <span>Projet</span>
+                    <a href="/projects">
+                      <i class="fa fa-dashboard"></i> <span>Projets</span>
                         <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
                      </span>
                     </a>
-                       <ul class="treeview-menu">
-                         <li><a href="/projets"><i class="fa fa-circle-o"></i> Liste Projets</a></li>
-                         <li><a href="/projets/create"><i class="fa fa-circle-o"></i> 
-                         Nouveau Projet</a></li>
-                          
-                      </ul>
-                 </li> 
+                  </li> 
+                  <li class="treeview">
+                    <a href="/actions">
+                      <i class="fa fa-dashboard"></i> <span>Plans communications</span>
+                        <span class="pull-right-container">
+                     </span>
+                    </a>
+                  </li> 
+                  <li class="treeview">
+                    <a href="/meetings">
+                      <i class="fa fa-dashboard"></i> <span>Réunions</span>
+                        <span class="pull-right-container">
+                     </span>
+                    </a>
+                  </li> 
+                  <li class="treeview">
+                    <a href="/deadlines">
+                      <i class="fa fa-dashboard"></i> <span>Deadlines</span>
+                        <span class="pull-right-container">
+                     </span>
+                    </a>
+                  </li> 
+                  <li class="treeview">
+                    <a href="/users">
+                      <i class="fa fa-dashboard"></i> <span>Utilisateurs</span>
+                        <span class="pull-right-container">
+                     </span>
+                    </a>
+                  </li> 
                  
-              @elseif(Auth::user()->role=="financial" )  
-                 <li><a href="/tableaux_finances"><i class="fa fa-circle-o"></i>Finances</a></li>
-              @elseif( Auth::user()->role=="technician")
-                 <li><a href="/tableaux_tech"><i class="fa fa-circle-o"></i>Techniques</a></li>
-              
               @endif
-               </ul>
                   
     </section>
     <!-- /.sidebar -->
