@@ -42,7 +42,13 @@
                         @if(Auth::user()->role=="technician")  
                         <td>
                                         <button class="btn btn-warning"  data-toggle="modal" data-target="#myModal1{{$project->id_project}}"></i></button>
-                                     <button class="btn btn-danger"> <i class="fa fa-close"></i> </button>
+                                     <form style="display: inline-block;" action="{{action('ProjectController@destroy',$project->id_project)}}" method="post">
+                            @csrf
+                            @method('Delete')
+                            <p data-placement="top" data-toggle="tooltip" title="Delete">
+                            <button class="btn btn-danger">Supprimer</button>
+                            </p>
+                          </form>
                                       <div class="modal fade" id="myModal1{{$project->id_project}}" role="dialog">
                                         <div class="modal-dialog modal-md modal-center">
                                         
