@@ -32,7 +32,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="/" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b></b>PAIM</span>
       <!-- logo for regular state and mobile devices -->
@@ -79,21 +79,13 @@
         
              <ul class="sidebar-menu">
                  
-                  @if(Auth::user()->role=="technician" or Auth::user()->role=="financial")
-                  @else
-                  <li>   
-                    <a href="/home">  
-                      <i class="fa fa-th"></i> <span>Acceuil</span>
-                      <span class="pull-right-container"></span> 
-                    </a>   
-                 </li> 
-                 @endif
+                
                  @if(Auth::user()->role=="admin"or Auth::user()->role=="delegate" or Auth::user()->role=="civil_society")
                   <li>      
                     <a href="/appointments">  
                       <i class="fa fa-th"></i> <span>Rendez-vous</span>
                        <span class="pull-right-container">
-                         <span class="label label-primary pull-right">4</span>
+                         <span class="label label-primary pull-right" id="totalTodos">0</span>
                        </span>
                     </a>
                  </li> 
@@ -202,8 +194,21 @@
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <!-- page script -->
 <script>
+  setInterval(function(){ $.ajax({
+    url: "countmeeting",
+    success: function( response ) {
+      var jsonData = JSON.parse(response);
+      for (var i = 0; i < jsonData.length; i++) {
+        var counter = jsonData[i];
+      //  console.log(counter.counter_name);
+
+      }
+      $('#totalTodos').text( counter.som);
+
+    }});
+  },2000);
   $(function () {
-    $("#example1").DataTable();
+    $("example1").DataTable();
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

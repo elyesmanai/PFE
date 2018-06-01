@@ -13,19 +13,26 @@ class AppointmentController extends Controller
     public function index()
     {
         $newappointments= Appointment::where('receiver_id', Auth::id())
+        ->where('date','>=', date('Y-m-d'))
+        ->where('status','en attente')
         ->orwhere('sender_id', Auth::id())
-        ->where([
-            ['status','=',"en attente"],
-            ['date','>=', date('Y-m-d')],
-        ])->get()->reverse();
+        ->where('date','>=', date('Y-m-d'))
+        ->where('status','en attente')
+        ->get();
+
 
         $oldappointments= Appointment::where('receiver_id', Auth::id())
         ->orwhere('sender_id', Auth::id())
         ->where('date','<', date('Y-m-d'))
-        ->where('status', "<>", "accepté")
+        ->get();
+
+        $refusedappointments= Appointment::where('receiver_id', Auth::id())
+        ->orwhere('sender_id', Auth::id())
+        ->where('status','annulé')
         ->get();
                
-        return view('appointments.index')->with('newappointments',$newappointments)->with('oldappointments',$oldappointments);
+        return view('appointments.index')->with('refusedappointments',$refusedappointments)->with('newappointments',$newappointments)->with('oldappointments',$oldappointments);
+
     }
 
     /**
@@ -80,6 +87,7 @@ class AppointmentController extends Controller
             $users=User::all();
             return view('appointments.edit')->with("users",$users)->with("appointment",$appointment);
         } 
+
         return view('appointments.edit')->with('appointment',$appointment);
     }
 
@@ -138,9 +146,16 @@ class AppointmentController extends Controller
     public function refuse($id)
     {   
         $appointments = Appointment::find($id);
-        $appointments->status="refusé"; //refused
+        $appointments->status="annulé"; //refused
         $appointments->save();
         return redirect('/appointments');
+    }
+     public function countmeeting()
+    {
+        /*$appointments= Appointment::select('count(id_appointment) as som')->where('receiver_id', Auth::id())->get();*/
+        $appointments = DB::select('SELECT count(id_appointment) as som FROM    appointments where receiver_id=? and status=?',array( Auth::id(),"en attente"));
+
+        return json_encode($appointments);
     }
 }
 ?>

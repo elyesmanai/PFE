@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use \App\Project;
 use \App\Meeting;
+use \App\Comaction;
+use \App\Projectgroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,7 +31,7 @@ class HomeController extends Controller
     }
 
     public function getappointments(){
-        return DB::table('appointments')->where('receiver_id',Auth::id())->orWhere('sender_id',Auth::id())->get();
+        return DB::table('appointments')->where('receiver_id',Auth::id())->where('date','>=', Date('Y-m-d'))->where('status','accepté')->orWhere('sender_id',Auth::id())->where('date','>=', Date('Y-m-d'))->where('status','accepté')->get();
 
     }
 
@@ -41,7 +43,7 @@ class HomeController extends Controller
         return DB::table('projects')->where('zone',Auth::user()->zone)->get();
     }
     public function getMeetings(){
-        return  Meeting::all();
+        return  Meeting::where('date','>=', Date('Y-m-d'))->get();
     }
     public function index()
     {
@@ -49,31 +51,35 @@ class HomeController extends Controller
         switch (Auth::user()->role) {
             case 'delegate':
                 $appointments = $this->getappointments();
-                $appointmentsNbr = $appointments->count();
                 $projects = $this->getProjects();
                 $meetings = $this->getMeetings();
-                return view('homes.delegate')->with('appointments',$appointments)->with('appointmentsNbr',$appointmentsNbr)->with('projects',$projects)->with('meetings',$meetings);;
+                return view('homes.delegate')->with('appointments',$appointments)->with('projects',$projects)->with('meetings',$meetings);
                 break;
 
 
             case 'civil_society':
                 $appointments = $this->getappointments();
-                $appointmentsNbr =  $appointments->count();
-                return view('homes.civil_society')->with('appointments',$appointments)->with('appointmentsNbr',$appointmentsNbr);
+                $meetings = $this->getMeetings();
+                $comactions = Comaction::where('target_id',Auth::id())->get();
+                return view('homes.civil_society')->with('meetings',$meetings)->with('comactions',$comactions)->with('appointments',$appointments);
                 break;
 
             case 'financial':
-             
                 return view('homes.financial');
                 break;
 
             case 'technician':
 
-
-                return view('homes.technician');
+                    $projects=Project::all();
+      
+                return view('homes.technician')->with('projects',$projects);
                 break;
             case 'admin':
-                return view('homes.admin');
+            $appointments = $this->getappointments();
+                $appointmentsNbr = $appointments->count();
+                $projects = $this->getProjects();
+                $meetings = $this->getMeetings();
+                return view('homes.admin')->with('appointments',$appointments)->with('appointmentsNbr',$appointmentsNbr)->with('projects',$projects)->with('meetings',$meetings);
                 break;
             
             default:

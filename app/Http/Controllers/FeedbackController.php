@@ -105,7 +105,8 @@ class FeedbackController extends Controller
     public function edit($id)
     {
         $feedback = Feedback::find($id);
-        return view('feedbacks.edit')->with("feedback",$feedback);
+        $users= User::all();
+        return view('feedbacks.edit')->with("feedback",$feedback)->with('users',$users);
     }
 
     /**

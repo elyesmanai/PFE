@@ -12,7 +12,6 @@
         <div class="row">
             <div class="col-lg-12">
                 <h2>Tableau technique {{ $year }}
-                    <button class="btn btn-success">Télécharger pdf</button>
                 </h2>
                 @foreach($groups as $group)
                 <h2 style="align-self: center;">{{ $group }}</h2>

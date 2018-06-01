@@ -25,7 +25,7 @@
                 @endswitch
                 </h2>
                 {{-- @if(!empty($tables))  --}}
-                    <table id="example1" class="display datatable table table-bordered table-striped">
+                    <table id="exemple1" class="display datatable table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>Année</th>
@@ -36,7 +36,12 @@
                             @foreach($years as $year)
                                 <tr>
                                     <th>{{ $year }}</th>
-                                    <th><a href="/tables/{{ $type }}/{{ $year }}"><button class="btn btn-info">Consulter</button></a></th>
+                                    <th>
+                                        <a href="/tables/{{ $type }}/{{ $year }}"><button class="btn btn-info">Consulter</button></a>
+                                        @if($type=="eval" and $year == Date("Y"))
+                                        <a href="/tables/{{ $type }}/{{ $year }}"><button class="btn btn-info">Modifier</button></a>
+                                        @endif
+                                    </th>
                                 </tr>    
                             @endforeach
                         </tbody>

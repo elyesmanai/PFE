@@ -17,7 +17,7 @@ class TableController extends Controller
      */
     public function index($name)
     {
-        $years = Project::all()->pluck('year')->unique();
+        $years = Projectgroup::all()->pluck('year')->unique();
         return view('tables.index')->with('years',$years)->with('type',$name);
     }
 
@@ -36,19 +36,19 @@ class TableController extends Controller
                 $total_loan = $groups->pluck('loan')->sum();
                 $total_assist = $groups->pluck('assistance')->sum();
                 $total = $total_assist + $total_loan + $total_self;
-                return view('tables.docs.res')->with('year',$year)->with('total',$total)->with('total_self',$total_self)->with('total_loan',$total_loan)->with('total_assist',$total_assist);
+                return view('tables.docs.res')->with('year',$year)->with('total',$total)->with('total_self',$total_self)->with('total_loan',$total_loan)->with('total_assist',$total_assist)->with('type',$name);
                 break;
             case 'tech':
                 $projects=Project::where('year',$year)->get();
                 $groups = $projects->pluck("group")->unique();
-                return view('tables.docs.tech')->with('year',$year)->with('projects',$projects)->with('groups',$groups);
+                return view('tables.docs.tech')->with('type',$name)->with('year',$year)->with('projects',$projects)->with('groups',$groups);
                 break;
 
             case 'fintech':
                 $projects=Project::where('year',$year);
                 $groups = $projects->pluck("group")->unique();
                 $zones = $projects->pluck('zone')->unique();
-                return view('tables.docs.fintech')->with('year',$year)->with('projects',$projects)->with('groups',$groups)->with('zones',$zones);
+                return view('tables.docs.fintech')->with('type',$name)->with('year',$year)->with('projects',$projects)->with('groups',$groups)->with('zones',$zones);
                 break;
 
             case 'eval':
@@ -64,27 +64,57 @@ class TableController extends Controller
 
     public function generate($name,$year,$lang){
 
+        if($lang=="ar"){
+            return redirect('http://api.pdflayer.com/api/convert?access_key=4a008e98ad085ad31fd8fb2f9d46c3e4&document_name='.$name.$year.'ar.pdf&document_url=http://bc85b615.ngrok.io/docs/'.$name.'/'.$year);
+        }else{
+
         switch ($name) {
             case 'fin':
-                if($lang=="ar"){
-                    return redirect('http://api.pdflayer.com/api/convert?access_key=4a008e98ad085ad31fd8fb2f9d46c3e4&document_url=http://44b67d7f.ngrok.io/test');
-                }else{
                     $groups = Projectgroup::where('year',$year)->get();
                     $data = [
-                        'groups' => $groups ,
+                        'groups' => $groups,
                         'type' => $name,
                         'year' => $year
                     ];
                     $pdf = PDF::loadView('tables.docs.finpdffr', $data);
-                    return $pdf->download('finance'.$year.'.pdf');
-                }
+                    return $pdf->download('finance'.$year.'fr.pdf');
+                
                 break;
-            
+            case "tech":
+                    $projects = Project::where('year',$year)->get();
+                    $groups = Projectgroup::where('year',$year)->get();
+                    $data = [
+                        'projects' => $projects,
+                        'groups' => $groups,
+                        'type' => $name,
+                        'year' => $year
+                    ];
+                    $pdf = PDF::loadView('tables.docs.techpdffr', $data);
+                    return $pdf->download('technique'.$year.'fr.pdf');
+
+            case 'res':
+                $groups = Projectgroup::where('year',$year);
+                $total_self = $groups->pluck('self_monetization')->sum();
+                $total_loan = $groups->pluck('loan')->sum();
+                $total_assist = $groups->pluck('assistance')->sum();
+                $total = $total_assist + $total_loan + $total_self;
+                
+                $data = [
+                    'total_self'=> $total_self,
+                    'total_loan'=>$total_loan,
+                    'total_assist'=>$total_assist,
+                    'total'=>$total,
+                    'year'=>$year
+                ];
+                $pdf = PDF::loadView('tables.docs.respdffr', $data);
+                return $pdf->download('res'.$year.'fr.pdf');
+
+                break;
             default:
                 # code...
                 break;
         }
-
+    }
     }
 
 }

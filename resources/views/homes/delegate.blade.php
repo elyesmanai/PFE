@@ -11,8 +11,8 @@
                 <table  id="example1" class="table table-bordered table-striped"> 
                     <tr>
                         <th>Date</th>
-                        <th>Where</th>
-                        <th>reason</th>
+                        <th>Objet</th>
+                        <th>Message</th>
                         <th>Actions</th>
                     </tr>
                     @foreach($appointments as $appointment)
@@ -23,14 +23,26 @@
 	                            <th>{{$appointment->message}}</th>
 	                            <th>
 	                            	@if($appointment->sender_id == Auth::id())
-	                            	<button class="btn btn-danger">Modifier</button>
+	                            	<a href="{{action('AppointmentController@edit', $appointment->id_appointment)}}"><button class="btn btn-danger">Modifier</button></a>
 	                            	@endif
-	                            	<button class="btn btn-danger">Annuler</button>
+	                            	 <a href="{{action('AppointmentController@refuse', $appointment->id_appointment)}}"><button class="btn btn-danger">Annuler</button></a>
 	                            	
 	                            </th>
 	                        </tr>
 	                      @endif
                     @endforeach
+                     @if(!empty($meetings))
+                        @foreach($meetings as $meeting)
+                            <tr>
+                                <th>{{$meeting->date}}</th>
+                                <th>{{$meeting->name}}</th>
+                                <th></th>
+                                <th>
+                                    <a href="/feedbacks/create"><button class="btn btn-danger">Envoyer feedback</button></a>
+                                </th>
+                            </tr>
+                        @endforeach
+                    @endif
                 </table>
                 @else
                     <td>Vous n'avez pas de rendez-vous</td>

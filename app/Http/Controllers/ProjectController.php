@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use \App\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -11,9 +13,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {   
-        $projects=Project::all();
+  public function index()
+    {
+               $projects=Project::all();
        return view('projects.index')->with('projects',$projects);
     }
 
@@ -23,8 +25,8 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-        return view('projects.create');
+    {
+          return view('projects.create');
     }
 
     /**
@@ -35,45 +37,31 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-       $projets= new Typeprojet();
-       $projets->type=$request->type;
-       $projets->soustype=$request->soustype;
-       $projets->save();
-       return redirect('projets');
+        $project = New Project();
+        $project->name = $request->get('nom');
+        $project->zone = $request->get('zone');
+        $project->group = $request->get('type');
+        $project->step = 'Choix du projet';
+        $project->completion = 0;
+        $project->year = $request->get('year');
+        $project->save();
+
+        return redirect('home');
+           
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+     public function update(Request $request, $id)
     {
-        //
-    }
+        $project = Project::find($id);
+        $project->name = $request->get('nom');
+        $project->zone = $request->get('zone');
+        $project->step = $request->get('step');
+        $project->completion = $request->get('completion');
+        $project->year = $request->get('year');
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        return view('projects.edit');
-    }
+        $project->save();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return redirect('home');
     }
 
     /**
@@ -84,6 +72,8 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $project = Project::find($id);
+        $project->delete();
+        return redirect('/home');
     }
 }

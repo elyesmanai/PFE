@@ -36,12 +36,23 @@
 		<label class="exampleInputEmail1">Objet</label>
 		<input type="text" name="object" class="form-control" value="{{ $feedback->object }}">
 	</div>
-  @if(Auth::user()->role="admin")
+ @if(Auth::user()->role=="admin")
   <div class="col-md-6">
-    <label class="exampleInputEmail1">Destinataire</label>
-    <input type="text" name="receiver" class="form-control" value="{{ $feedback->receiver_id }}">
+      <br>
+     <select name="receiver" id="u">
+      
+       @foreach($users as $user)
+        @if($user->id == $feedback->receiver_id)
+          <option value="{{ $feedback->receiver_id }}">{{ $user->name }}</option>
+        @endif
+       @if($user->id!=Auth::user()->id)
+       
+       <option value="{{$user->id}}">{{$user->name}}</option>
+       @endif
+       @endforeach
+     </select>
   </div>
-  @endif
+@endif
 
 	<div class="col-md-12"><br> <button class="btn btn-success pull-right">Envoyer</button></div>
 	</form>

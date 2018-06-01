@@ -27,7 +27,6 @@
                   <th>Date</th> 
                   <th>Objet</th>
                   <th>Message</th>
-                  <th>Commentaire</th>
                   <th>Actions</th>
                 </tr>
                 </thead>
@@ -84,7 +83,6 @@
                   <th>Date</th> 
                   <th>Objet</th>
                   <th>Message</th>
-                  <th>Commentaire</th>
                   <th>Statut</th>
                 </tr>
                 </thead>
@@ -94,10 +92,18 @@
                         <td>{{$appointment->date}}</td>
                         <td>{{$appointment->object}}</td>
                         <td>{{$appointment->message}}</td>
-                        <td>{{$appointment->Comment}}</td>
                         <td>{{ $appointment->status }}</td>
                       </tr>
                     @endforeach
+                    @foreach($refusedappointments as $appointment)
+                      <tr>
+                        <td>{{$appointment->date}}</td>
+                        <td>{{$appointment->object}}</td>
+                        <td>{{$appointment->message}}</td>
+                        <td>{{ $appointment->status }}</td>
+                      </tr>
+                    @endforeach
+                   
                 </tbody>
                 </table>
                 </div>

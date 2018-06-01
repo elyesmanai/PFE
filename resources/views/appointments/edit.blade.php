@@ -34,15 +34,17 @@
   </div>
   <div class="col-md-12">
     <label class="exampleInputEmail1">Message</label>
-    <textarea class="form-control" rows="3" value="k" name="message"></textarea>
+    <textarea class="form-control" rows="3" name="message">{{ $appointment->message }}</textarea>
   </div>
 @if(Auth::user()->role=="admin")
   <div class="col-md-6">
       <br>
-     <select name="user" id="u" value="k">
-      <option value="">--</option>
+     <select name="user" id="u">
+      
        @foreach($users as $user)
-
+        @if($user->id == $appointment->receiver_id)
+          <option value="{{ $appointment->receiver_id }}">{{ $user->name }}</option>
+        @endif
        @if($user->id!=Auth::user()->id)
        
        <option value="{{$user->id}}">{{$user->name}}</option>

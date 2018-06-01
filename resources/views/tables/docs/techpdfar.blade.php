@@ -1,23 +1,18 @@
-@extends('layouts.main')
-
-
-@section('content')
-
-		<div class="row">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style>
+        * { font-family: DejaVu Sans, sans-serif; }
+    </style>
+</head>
+<body>
+        <div class="row">
             <div class="col-lg-12">
-                <h2>Tableau technique {{ $year }}
-                     <a href="/tables/{{ $type }}/{{ $year }}/generate/fr">
-                    <button class="btn btn-success">Générer pdf francais</button>
-                </a>
-                <a href="/tables/{{ $type }}/{{ $year }}/generate/ar">
-                    <button class="btn btn-success">Générer pdf arabe</button>
-                </a>
-                </h2>
+                <h2>Tableau technique {{ $year }}</h2>
                 @foreach($groups as $group)
-                <center>
-                    <h2 style="background-color: white;border: 1px solid black">{{ $group }}</h2>
-                    </center>
-                <table style="font-size: 20px; border:1px solid black" id="exemple1" class="display datatable table table-bordered table-striped">
+                <h2 style="align-self: center;">{{ $group }}</h2>
+                <table style="font-size: 20px; border:1px solid black" class="display datatable table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>نسبة الإنجاز</th>
@@ -40,4 +35,5 @@
                 @endforeach  
             </div>
         </div>
-@endsection
+</body>
+</html>

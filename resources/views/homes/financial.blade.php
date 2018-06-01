@@ -15,44 +15,33 @@
               <table id="example2" class="table table-bordered table-striped">
                 <tr>
                     <th>Name</th>
-                    <th>Année</th>
                     <th>Actions</th>
                 </tr>
                 
                    
                     <tr>
-                        <td>Projet type N</td>
-                        <td>2018</td>
-                         <td><a href="/show"><button class="btn btn-info">consuter</button></a> &nbsp;
-                         <button class="btn btn-warning">modifier</button></td>
+                        <td>Groupes de projets type près</td>
+                        <td>
+                            <a href="/projectgroups/n">
+                                <button class="btn btn-info">consuter</button>
+                            </a>
+                            <a href="/projectgroups/n/edit">
+                                <button class="btn btn-info">modifier</button>
+                            </a>
+                        </td>
                     </tr>
                      <tr>
-                        <td>Projet type I</td>
-                        <td>2018</td>
-                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
+                        <td>Groupes de projets type Administratifs</td>
+                         <td><a href="/projectgroups/a"><button class="btn btn-info">consuter</button></a><a href="/projectgroups/a/edit">
+                                <button class="btn btn-info">modifier</button>
+                            </a></td>
                     </tr>
                      <tr>
-                        <td>Projet type H</td>
-                        <td>2018</td>
-                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
+                        <td>Groupes de projets type structurels</td>
+                         <td><a href="/projectgroups/s"><button class="btn btn-info">consuter</button></a><a href="/projectgroups/s/edit">
+                                <button class="btn btn-info">modifier</button>
+                            </a></td>
                     </tr>
-                     <tr>
-                        <td>Projet type N</td>
-                        <td>2017</td>
-                         <td><a href="/show"><button class="btn btn-info">consuter</button></a> &nbsp;
-                         <button class="btn btn-warning">modifier</button></td>
-                    </tr>
-                     <tr>
-                        <td>Projet type I</td>
-                        <td>2017</td>
-                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
-                    </tr>
-                     <tr>
-                        <td>Projet type H</td>
-                        <td>2017</td>
-                         <td><button class="btn btn-info">consuter</button> &nbsp;<button class="btn btn-warning">modifier</button></td>
-                    </tr>
-
                </table>
                </div>
                </div> 

@@ -18,19 +18,19 @@
                     <table style="font-size: 20px; border:1px solid black; vertical-align: center;" id="example1" class="display datatable table table-bordered table-striped">
                         <thead>
                             <tr style="background-color: #B9CDE5">
-                                <th colspan="3">Libellé projet</th>
+                                <th rowspan="2">Libellé projet</th>
                                 <th rowspan="2">Cout</th>
-                                <th rowspan="2">Plan de financement</th>
+                                <th colspan="3">Plan de financement</th>
                             </tr>
                             <tr>
                                 <th style="background-color: #D7E4BD">
-                                    Assistance
+                                    Auto-financement
                                 </th>
                                 <th style="background-color: #FCD5B5">
                                     Prêt
                                 </th>
                                 <th style="background-color: #F2DCDB">  
-                                    Auto-financement
+                                    Assistance
                                 </th>
                             </tr>
 
@@ -38,19 +38,19 @@
                         <tbody>
                             @foreach($groups as $group)
                                <tr>
-                                   <td style="background-color: #D7E4BD">{{ $group->assistance }}</td>
-                                    <td style="background-color: #FCD5B5">{{ $group->loan }}</td>
-                                    <td style="background-color: #F2DCDB">{{ $group->self_monetization  }}</td>
-                                    <td style="background-color: #DBEEF4">{{ $group->total_amount}}</td>
-                                    <td style="background-color: #DBEEF4">{{ $group->name }}</td>
+                                   <td style="background-color: #DBEEF4">{{ $group->name }}</td>
+                                    <td style="background-color: #DBEEF4">{{ $group->total_amountloan }}</td>
+                                    <td style="background-color: #D7E4BD">{{ $group->self_monetization  }}</td>
+                                    <td style="background-color: #FCD5B5">{{ $group->loan}}</td>
+                                    <td style="background-color: #F2DCDB">{{ $group->assistance }}</td>
                                </tr>
                             @endforeach
                             <tr>
+                                <td style="background-color: #DBEEF4">Total</td>
+                                <td style="background-color: #DBEEF4"></td>
                                 <td style="background-color: #D7E4BD"></td>
                                 <td style="background-color: #FCD5B5"></td>
                                 <td style="background-color: #F2DCDB"></td>
-                                <td style="background-color: #DBEEF4"></td>
-                                <td style="background-color: #DBEEF4">Total</td>
                             </tr>
                         </tbody>
                     </table></center>

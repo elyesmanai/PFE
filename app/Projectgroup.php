@@ -8,6 +8,6 @@ class Projectgroup extends Model
 {
     protected $table = 'projectgroups';
 
-    public $primaryKey = 'id_group';
+    public $primaryKey = 'id_type';
     protected $fillable = ['type',"name",'total_amount','self_monetization','loan','assistance','year'];
 }
