@@ -79,8 +79,15 @@
         
              <ul class="sidebar-menu">
                  
-                  @if(Auth::user()->role=="technician" or Auth::user()->role=="financial")
-                  @else
+                  @if(Auth::user()->role=="technician")
+                   <li>   
+                    <a href="/projects">  
+                      <i class="fa fa-th"></i> <span>Projets</span>
+                      <span class="pull-right-container"></span> 
+                    </a>   
+                 </li> 
+                 @endif
+                  @if(Auth::user()->role=="financial")
                   <li>   
                     <a href="/home">  
                       <i class="fa fa-th"></i> <span>Acceuil</span>
@@ -93,7 +100,7 @@
                     <a href="/appointments">  
                       <i class="fa fa-th"></i> <span>Rendez-vous</span>
                        <span class="pull-right-container">
-                         <span class="label label-primary pull-right">4</span>
+                         <span class="label label-primary pull-right" id="totalTodos">0</span>
                        </span>
                     </a>
                  </li> 
@@ -202,6 +209,19 @@
 <script src="{{ asset('dist/js/demo.js') }}"></script>
 <!-- page script -->
 <script>
+  setInterval(function(){ $.ajax({
+    url: "countmeeting",
+    success: function( response ) {
+      var jsonData = JSON.parse(response);
+      for (var i = 0; i < jsonData.length; i++) {
+        var counter = jsonData[i];
+      //  console.log(counter.counter_name);
+
+      }
+      $('#totalTodos').text( counter.som);
+
+    }});
+  },2000);
   $(function () {
     $("#example1").DataTable();
     $('#example2').DataTable({

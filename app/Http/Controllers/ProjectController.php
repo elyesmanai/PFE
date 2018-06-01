@@ -11,9 +11,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {   
-        $projects=Project::all();
+  public function index()
+    {
+               $projects=Project::all();
        return view('projects.index')->with('projects',$projects);
     }
 
@@ -23,8 +23,8 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {   
-        return view('projects.create');
+    {
+          return view('projects.create');
     }
 
     /**
@@ -35,46 +35,31 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-       $projets= new Typeprojet();
-       $projets->type=$request->type;
-       $projets->soustype=$request->soustype;
-       $projets->save();
-       return redirect('projets');
+        switch(Auth::user()->role){
+            case "technician":
+                $data =  $request->all();
+                $type =  $data['type'];
+                $validated = "not yet";
+                $id=DB::table('projects')
+                        ->insertGetId(
+                        [
+                        'name' => $data['nom'],
+                        'group' => $data['type'],
+                        'zone' => $data['zone'],
+                         'step'=>0,
+                         'completion'=>0,
+                        'year' => $data['year'],
+                        
+                       
+                ]); 
+                 break;              
+                }
+                $tables = Project::where('id',$id)->get();
+
+                 return redirect('projects');
+           
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        return view('projects.edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

@@ -31,7 +31,7 @@ Route::resource('users', 'UserController');
 
 Route::resource('feedbacks', 'FeedbackController');
 
-
+Route::resource('tableaux_tech','TechnicalTableController');
 
 Route::get('/tables/{name}', 'TableController@index');
 Route::get('/tables/{name}/{year}', 'TableController@show');
@@ -47,7 +47,10 @@ Route::get('/tablefin',function(){
 
 
 Route::resource('projects', 'ProjectController');
-
+Route::resource('projectgroups', 'ProjectGroupeController');
 
 
 Route::resource('tableaux_eval', 'GeneralEvaluationTableController');
+
+//notif
+Route::get('countmeeting','AppointmentController@countmeeting');

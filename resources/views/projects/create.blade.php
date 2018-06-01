@@ -1,3 +1,5 @@
+
+
 @extends('layouts.main')
 @section('content')
 <section class="content-header">
@@ -13,25 +15,56 @@
     <br>
 <div class="box">
 <div class="row">
-	<div class="col-lg-2"></div>
-  	<div class="col-lg-8">
-  	  <form method="POST" action="{{ url('projects') }}">
-  	  	@csrf
-  		<label class="exampleInputEmail1">Nom</label>
-  		<input type="text" name="name" class="form-control">
-      <label class="exampleInputEmail1">Type</label>
-  		<select class="form-control" name="type">		
-        <option value="1">éclairage public</option>
-        <option value="2">goudronnement</option>
-        <option value="3">rénovation</option>
-      </select>
-      <label class="exampleInputEmail1">Zone</label>
-      <input type="text" name="zone" class="form-control">
-        <br> 
-          <button class="btn btn-success">Ajouter</button>
-  	    <br><br><br>
-  	    </form>	
-  	</div>
+	<div class="col-md-2"></div>
+  	<div class="col-md-8">
+               <center>
+                <form action="{{url('tableaux_tech')}} " method="post" class="form-horizontal">
+                   <div class="box-body">
+                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="form-group">
+                     <label class="col-sm-2 control-label">Nom</label>
+                     <div class="col-sm-10">
+                     <input type="text" name="nom" class="form-control" id="inputEmail3"> 
+                     </div>
+                    </div> 
+                     <br>
+                     <div class="form-group"> 
+                    <label class="col-sm-2 control-label">type</label>
+                    <div class="col-sm-10">
+                    <select name="type" class="form-control" id="inputEmail3">
+                      <option value="Marsa Medina">Voierie</option>
+                      <option value="Marsa Medina">l'eaux pluviales</option>
+                      <option value="Marsa Medina">trottoires</option>
+                      <option value="Marsa Medina">eclairage</option>
+
+                    </select>
+                    </div>
+                  </div>
+                    <br>
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">Zone</label>
+                    <div class="col-sm-10">
+                    <select name="zone" class="form-control" id="inputEmail3">
+                      <option value="Marsa Medina">Marsa Medina</option>
+                      <option value="Gammarth">Gammarth</option>
+                      <option value="Bhar Lazrag">Bhar Lazrag</option>
+                      <option value="Sidi Daoued">Sidi Daoued</option>
+                      <option value="Marsa Eriadh">Marsa Eriadh</option>
+                    </select>
+                  </div>
+                 </div> 
+                    <br>
+                     <div class="form-group"> 
+                     <label class="col-sm-2 control-label">Year</label>
+                     <div class="col-sm-10">
+                     <input type="number" name="year" placeholder="year" class="form-control" id="inputEmail3">
+                     </div>  
+                   </div>     
+                      <br>        
+                      <button class="btn btn-info" type="submit">Enregister</button> 
+
+                    </form>
+                  </div>  
   </div>	
 </div>
 @endsection

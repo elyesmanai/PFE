@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use \App\Project;
 use \App\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,8 +69,9 @@ class HomeController extends Controller
 
             case 'technician':
 
-
-                return view('homes.technician');
+                        $projects=Project::all();
+      
+                return view('homes.technician')->with('projects',$projects);
                 break;
             case 'admin':
                 return view('homes.admin');

@@ -23,8 +23,8 @@
                     <tr>
                         <td>Projet type N</td>
                         <td>2018</td>
-                         <td><a href="/show"><button class="btn btn-info">consuter</button></a> &nbsp;
-                         <button class="btn btn-warning">modifier</button></td>
+                         <td><a href="projectgroups"><button class="btn btn-info">consuter</button></a> &nbsp;
+                      <a href="{{action('ProjectGroupeController@edit', 1)}}"> <button class="btn btn-warning">modifier</button></td>
                     </tr>
                      <tr>
                         <td>Projet type I</td>

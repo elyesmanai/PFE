@@ -12,7 +12,7 @@
                             <h2>Tableaux Techniques</h2>
                         </div>
                         <div class="col-lg-6">
-                            <a href="/tableaux_tech/create"><button class="btn btn-success pull-right">Nouveau Tableau</button></a>
+                            <a href="/projects/create"><button class="btn btn-success pull-right">Nouveau Tableau</button></a>
                         </div>
                     </div>   
                 <table id="example1" class="table table-bordered table-striped">

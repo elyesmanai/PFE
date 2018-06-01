@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use \App\FinTable;
+use Projectgroup;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class FinancialTableController extends Controller
+class ProjectGroupeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,8 @@ class FinancialTableController extends Controller
      */
     public function index()
     {
-        $tables = FinTable::all();
-        $years = $tables->pluck('year')->unique();
-        return view('admin\financial_tables\all')->with('years',$years)->with('tables',$tables);
+        $tables=\App\Projectgroup::all();
+        return view('projects_groups.show')->with('tables',$tables);
     }
 
     /**
@@ -26,7 +24,7 @@ class FinancialTableController extends Controller
      */
     public function create()
     {
-        return view('admin\financial_tables\create');
+        //
     }
 
     /**
@@ -59,7 +57,8 @@ class FinancialTableController extends Controller
      */
     public function edit($id)
     {
-        //
+        $tables=\App\Projectgroup::all();
+        return view('projects_groups.edit')->with('tables',$tables);
     }
 
     /**
@@ -70,8 +69,36 @@ class FinancialTableController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {    
+        $ts=$request->get('total');
+        foreach ($ts as $t => $value) {
+           $projectgroup= \App\Projectgroup::find($t+1);
+           $projectgroup->total_amount=$value;
+           $projectgroup->save();
+           
+        }
+        $ts=$request->get('self');
+        foreach ($ts as $t => $value) {
+           $projectgroup= \App\Projectgroup::find($t+1);
+           $projectgroup->self_monetization=$value;
+           $projectgroup->save();
+           
+        }
+        $ts=$request->get('loan');
+        foreach ($ts as $t => $value) {
+           $projectgroup= \App\Projectgroup::find($t+1);
+           $projectgroup->loan=$value;
+           $projectgroup->save();
+           
+        }
+        $ts=$request->get('ass');
+        foreach ($ts as $t => $value) {
+           $projectgroup= \App\Projectgroup::find($t+1);
+           $projectgroup->assistance=$value;
+           $projectgroup->save();
+           
+        }
+        return redirect('projectgroups');
     }
 
     /**
@@ -84,9 +111,8 @@ class FinancialTableController extends Controller
     {
         //
     }
-    public function showh()
+    public function editprojet()
     {
-      $tables = FinTable::all();
-      return view('financial\financial_tables\view')->with('tables',$tables);
+
     }
 }
