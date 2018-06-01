@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Feedback;
+use App\Media;
 use Storage;
 use \App\User;
 use Image;
@@ -26,7 +27,7 @@ class FeedbackController extends Controller
         return view('feedbacks.index')->with('feedbacks',$feedbacks);
 
         
-    }
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -53,26 +54,34 @@ class FeedbackController extends Controller
         $feedback->type=$request->get('type');
         $feedback->meeting_id=0;
 
+
         if(Auth::user()->role == 'admin'){
             $feedback->receiver_id=$request->get('receiver');
         } else{
             $feedback->receiver_id=User::where('role',"admin")->first()->id; 
         }
 
-        
+        $feedback->save();
 
-        $media = 0;
-        $files = $request->file('image');
-    
-        if( $request->file('image')!=null){
-            $image = $request->file('image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            Image::make($image)->resize(300, null, function ($constraint) {$constraint->aspectRatio();})->save( public_path('/media/' . $filename ) );
-            //Image::make($image)->save( public_path('/uploads/imagepromo/' . $filename ) );
-            $feedback->image = '/media/'.$filename;
+        if($request->file('image')!=null){
+            foreach ($request->file('image') as $image) {
+
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                Image::make($image)->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();})->save( public_path('/media/'.$filename ) );
+
+                $media = new Media();
+                $media->path ='/media/'.$filename;
+                $media->author_id = Auth::id();
+                $media->feedback_id = $feedback->id_feedback;
+                $fulltype = $image->getClientMimeType();
+                $type= explode("/",$fulltype);
+                $media->type = $type[0];
+                $media->save();
+            }
         }
 
-        $feedback->save();
+
         return redirect('/feedbacks');
     }
 

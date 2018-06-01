@@ -14,15 +14,15 @@ class AppointmentController extends Controller
     {
         $newappointments= Appointment::where('receiver_id', Auth::id())
         ->orwhere('sender_id', Auth::id())
-        ->where('date','>=', date('Y-m-d'))
-        ->where('status','en attente')
-        ->get()
-        ->reverse();
+        ->where([
+            ['status','=',"en attente"],
+            ['date','>=', date('Y-m-d')],
+        ])->get()->reverse();
 
         $oldappointments= Appointment::where('receiver_id', Auth::id())
         ->orwhere('sender_id', Auth::id())
         ->where('date','<', date('Y-m-d'))
-        ->where('status', "!=", "accepté")
+        ->where('status', "<>", "accepté")
         ->get();
                
         return view('appointments.index')->with('newappointments',$newappointments)->with('oldappointments',$oldappointments);
@@ -63,7 +63,7 @@ class AppointmentController extends Controller
             $appointment->receiver_id=User::where('role',"admin")->first()->id;     
         }
        
-        $appointments->save();
+        $appointment->save();
         return redirect('appointments');
     }
 

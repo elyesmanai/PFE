@@ -28,26 +28,20 @@ Route::resource('actions', 'ComactionController');
 Route::resource('meetings', 'MeetingController');
 Route::resource('deadlines', 'DeadlineController');
 Route::resource('users', 'UserController');
-
 Route::resource('feedbacks', 'FeedbackController');
-
-
-
-Route::get('/tables/{name}', 'TableController@index');
-Route::get('/tables/{name}/{year}', 'TableController@show');
-
-Route::get('/projects/edit',function(){
-	return view('projects.edit');
-});
-
-
-Route::get('/tablefin',function(){
-	return view('tables.fin');
-});
-
 
 Route::resource('projects', 'ProjectController');
 
+Route::get('/tables/{name}', 'TableController@index');
+Route::get('/tables/{name}/{year}', 'TableController@show');
+Route::get('/tables/{name}/{year}/generate/{lang}', 'TableController@generate');
+
+
+
+Route::get('/test', function(){
+	$groups = [];
+	return view('tables.docs.finpdf')->with('year','2018')->with('groups',$groups);
+});
 
 
 Route::resource('tableaux_eval', 'GeneralEvaluationTableController');

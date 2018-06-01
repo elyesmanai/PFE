@@ -16,6 +16,7 @@ class CreateProjectgroupsTable extends Migration
         Schema::create('projectgroups', function (Blueprint $table) {
             $table->increments('id_type');
             $table->string('type');
+            $table->string('name');
             $table->integer('total_amount');
             $table->integer('self_monetization');
             $table->integer('loan');

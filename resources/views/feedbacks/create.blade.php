@@ -21,8 +21,8 @@
             <div class="box-body">
 <div class="row">
     
-    <form method="post" action="{{url('feedbacks')}}">
-         @csrf
+    <form method="post" action="{{url('feedbacks')}}" enctype="multipart/form-data">
+        @csrf
     <div class="col-md-6">
         <label class="exampleInputEmail1">Type</label>
         <select class="form-control" name="type">
@@ -35,12 +35,17 @@
         <label class="exampleInputEmail1">Objet</label>
         <input type="text" name="object" class="form-control">
     </div>
+
     @if(Auth::user()->role=="admin")
         <div class="col-md-6">
             <label class="exampleInputEmail1">Destinataire</label>
             <input type="text" name="receiver" class="form-control">
         </div>
     @endif
+    <div class="col-md-6">
+        <label class="exampleInputEmail1">Envoyer image (optionel)</label>
+        <input type="file" name="image[]" multiple> 
+    </div>
 
     <div class="col-md-12"><br> <button class="btn btn-success pull-right">Envoyer</button></div>
     </form>

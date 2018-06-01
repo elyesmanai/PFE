@@ -43,8 +43,7 @@
                           <a href="{{action('AppointmentController@edit', $appointment->id_appointment)}}">
                             <button class="btn btn-danger">modifier</button>
                           </a>
-                          </td>
-                          <td>
+                          
                             <a href="{{action('AppointmentController@refuse', $appointment->id_appointment)}}">
                             <button class="btn btn-danger">Annuler</button>
                           </a>
@@ -54,8 +53,7 @@
                             <a href="{{action('AppointmentController@accept', $appointment->id_appointment)}}">
                             <button class="btn btn-success">Accepter</button>
                           </a>
-                          </td>
-                          <td>
+                          
                             <a href="{{action('AppointmentController@refuse', $appointment->id_appointment)}}">
                             <button class="btn btn-danger">Annuler</button>
                           </a>
