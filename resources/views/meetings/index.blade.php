@@ -35,6 +35,7 @@
                         <td>{{$meeting->date}}</td>
                         <td>{{$meeting->name}}</td>
                         <td>
+                           <a href="{{action('MeetingController@show', $meeting->id_meeting)}}"><button class="btn btn-success">afficher</button></a>
                            <a href="{{action('MeetingController@edit', $meeting->id_meeting)}}">
                             <button class="btn btn-danger">modifier</button>
                           </a>

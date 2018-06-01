@@ -75,11 +75,10 @@ class HomeController extends Controller
                 return view('homes.technician')->with('projects',$projects);
                 break;
             case 'admin':
-            $appointments = $this->getappointments();
-                $appointmentsNbr = $appointments->count();
+                $appointments = $this->getappointments();
                 $projects = $this->getProjects();
                 $meetings = $this->getMeetings();
-                return view('homes.admin')->with('appointments',$appointments)->with('appointmentsNbr',$appointmentsNbr)->with('projects',$projects)->with('meetings',$meetings);
+                return view('homes.admin')->with('appointments',$appointments)->with('projects',$projects)->with('meetings',$meetings);
                 break;
             
             default:

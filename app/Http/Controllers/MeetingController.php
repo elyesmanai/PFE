@@ -54,7 +54,10 @@ class MeetingController extends Controller
      */
     public function show($id)
     {
-        //
+        $meeting = Meeting::where('id_meeting',$id)->get();
+        $medias = Media::all();
+        $feedbacks = Feedback::where('id_feedback',$feedback_id)->get();
+        
     }
 
     /**

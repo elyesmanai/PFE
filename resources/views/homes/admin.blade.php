@@ -45,7 +45,53 @@
     <!-- /.sidebar -->
   </aside>
 
-  
+    <div class="row">
+            <div class="col-lg-12">
+                <h2>Mes rendez-vous <a href="/appointments"><button class="btn btn-info">Tous les rendez-vous</button></a>
+                <a href="/appointments/create"><button class="btn btn-success">Nouveau rendez-vous</button></h2></a> 
+                
+                @if(!empty($appointments))
+                <table  id="example1" class="table table-bordered table-striped"> 
+                    <tr>
+                        <th>Date</th>
+                        <th>Objet</th>
+                        <th>Message</th>
+                        <th>Actions</th>
+                    </tr>
+                    @foreach($appointments as $appointment)
+                        @if($appointment->date >=  date('Y-m-d H:i:s'))
+                            <tr>
+                                <th>{{$appointment->date}}</th>
+                                <th>{{$appointment->object}}</th>
+                                <th>{{$appointment->message}}</th>
+                                <th>
+                                    @if($appointment->sender_id == Auth::id())
+                                    <a href="{{action('AppointmentController@edit', $appointment->id_appointment)}}"><button class="btn btn-danger">Modifier</button></a>
+                                    @endif
+                                     <a href="{{action('AppointmentController@refuse', $appointment->id_appointment)}}"><button class="btn btn-danger">Annuler</button></a>
+                                    
+                                </th>
+                            </tr>
+                          @endif
+                    @endforeach
+                     @if(!empty($meetings))
+                        @foreach($meetings as $meeting)
+                            <tr>
+                                <th>{{$meeting->date}}</th>
+                                <th>{{$meeting->name}}</th>
+                                <th></th>
+                                <th>
+                                    <a href="/feedbacks/create"><button class="btn btn-danger">Envoyer feedback</button></a>
+                                </th>
+                            </tr>
+                        @endforeach
+                    @endif
+                </table>
+                @else
+                    <td>Vous n'avez pas de rendez-vous</td>
+                @endif
+            </div>
+        </div>
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
@@ -285,53 +331,7 @@
          <br>
          
             <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <!--The calendar -->
-              <div id="calendar" style="width: 100%"></div>
-            </div>
-            <!-- /.box-body -->
-            <div class="box-footer text-black">
-              <div class="row">
-                <div class="col-sm-6">
-                  <!-- Progress bars -->
-                  <div class="clearfix">
-                    <span class="pull-left">Task #1</span>
-                    <small class="pull-right">90%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                  </div>
-
-                  <div class="clearfix">
-                    <span class="pull-left">Task #2</span>
-                    <small class="pull-right">70%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-6">
-                  <div class="clearfix">
-                    <span class="pull-left">Task #3</span>
-                    <small class="pull-right">60%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                  </div>
-
-                  <div class="clearfix">
-                    <span class="pull-left">Task #4</span>
-                    <small class="pull-right">40%</small>
-                  </div>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                  </div>
-                </div>
-                <!-- /.col -->
-              </div>
-              <!-- /.row -->
-            </div>
+         
           </div>
           <!-- /.box -->
 
